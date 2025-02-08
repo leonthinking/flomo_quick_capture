@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>flomo Quick Capture 设置</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+    .container {
+      width: 500px;
+      max-width: 100%;
+      background-color: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    h2 {
+      margin: 0 0 24px 0;
+      font-size: 20px;
+      color: #333;
+    }
+    .section {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #30CF79;
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 12px 15px;
+      background-color: #30CF79;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    button:hover {
+      background-color: #2bb76c;
+    }
+    .toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 24px;
+      border-radius: 6px;
+      color: white;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 9999;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .toast.show {
+      opacity: 1;
+    }
+    .toast.success {
+      background-color: #30CF79;
+    }
+    .toast.error {
+      background-color: #f44336;
+    }
+    .description {
+      color: #666;
+      margin: 15px 0;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+    .description p {
+      margin: 8px 0;
+    }
+    .description p:first-child {
+      margin-top: 0;
+    }
+    .description p:last-child {
+      margin-bottom: 0;
+    }
+    .author-info {
+      margin-top: 20px;
+      text-align: center;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+    }
+    .author-info a {
+      color: #0066cc;
+      text-decoration: none;
+      margin: 0 4px;
+      transition: color 0.2s;
+      font-weight: 500;
+    }
+    .author-info a:hover {
+      color: #004c99;
+    }
+    .feedback-section {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+    }
+    .feedback-section h3 {
+      margin: 0 0 15px 0;
+      color: #333;
+      font-size: 16px;
+    }
+    .feedback-section p {
+      margin: 0 0 15px 0;
+      color: #666;
+      line-height: 1.5;
+    }
+    .feedback-section ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .feedback-section li {
+      margin: 8px 0;
+      color: #666;
+    }
+    .feedback-section a {
+      color: #0066cc;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .feedback-section a:hover {
+      color: #004c99;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>设置</h2>
+    <div class="section">
+      <div class="form-group">
+        <label for="apiKey">flomo API Key:</label>
+        <input type="text" id="apiKey" placeholder="请粘贴你的 flomo API Key">
+      </div>
+      <button id="save">保存设置</button>
+      <div id="toast" class="toast"></div>
+    </div>
+    
+    <div class="feedback-section">
+      <h3>问题反馈</h3>
+      <p>如果你在使用过程中遇到任何问题或有建议，欢迎通过以下方式联系我：</p>
+      <ul>
+        <li>💭 即刻：<a href="https://jike.city/leonzhang" target="_blank">@iLeon</a></li>
+        <li>🐦 X：<a href="https://twitter.com/leonthinking" target="_blank">@leonthinking</a></li>
+        <li>📧 邮箱：<a href="mailto:thinkinghunt@163.com">thinkinghunt@163.com</a></li>
+      </ul>
+    </div>
+
+    <div class="author-info">
+      Created by <a href="https://jike.city/leonzhang" target="_blank">即刻@iLeon</a> · <a href="https://twitter.com/leonthinking" target="_blank">X@Leon</a> · <a href="https://bento.me/leonzhang" target="_blank">More about</a>
+    </div>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

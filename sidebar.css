@@ -1,0 +1,313 @@
+#flomo-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100vh;
+  background: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+#flomo-sidebar.hidden {
+  transform: translateX(100%);
+}
+
+/* 当侧边栏显示时，将页面内容向左移动 */
+body.flomo-sidebar-active {
+  margin-right: 400px !important;
+  transition: margin-right 0.3s ease;
+}
+
+.flomo-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-right: 60px;
+  position: relative;
+}
+
+.flomo-header h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  flex-grow: 1;
+}
+
+.flomo-settings-btn {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.flomo-settings-btn:hover {
+  opacity: 1;
+}
+
+.flomo-input-group {
+  margin-bottom: 15px;
+}
+
+.flomo-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #666;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.flomo-input-group input[type="text"],
+.flomo-input-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  resize: vertical;
+  background-color: #fff;
+}
+
+.flomo-input-group textarea {
+  min-height: 80px;
+  height: auto;
+}
+
+.flomo-tags-history {
+  margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.flomo-tag-item {
+  background-color: #f0f0f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s;
+}
+
+.flomo-tag-item:hover {
+  background-color: #e0e0e0;
+}
+
+.flomo-submit-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #30CF79;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.flomo-submit-btn:hover {
+  background-color: #2bb76c;
+}
+
+.flomo-error {
+  color: red;
+  margin-top: 10px;
+  display: none;
+}
+
+#flomo-source {
+  background-color: #fff;
+  color: #333;
+  cursor: text;
+  min-height: 80px;
+  height: auto;
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: normal;
+}
+
+/* 添加关闭按钮 */
+.flomo-close-btn {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.flomo-close-btn:hover {
+  opacity: 1;
+}
+
+.flomo-close-btn::before,
+.flomo-close-btn::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  background-color: #333;
+  transform-origin: center;
+}
+
+.flomo-close-btn::before {
+  transform: rotate(45deg);
+}
+
+.flomo-close-btn::after {
+  transform: rotate(-45deg);
+}
+
+/* 拖动调整宽度的把手 */
+.flomo-resize-handle {
+  position: absolute;
+  top: 0;
+  left: -4px;
+  width: 8px;
+  height: 100%;
+  cursor: ew-resize;
+  background: transparent;
+}
+
+.flomo-toast-container {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.flomo-toast {
+  padding: 8px 16px;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+  line-height: 1.5;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 
+              0 6px 16px 0 rgba(0, 0, 0, 0.08), 
+              0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  animation: toast-slide-in 0.3s ease;
+  pointer-events: auto;
+  min-width: 120px;
+  text-align: center;
+}
+
+.flomo-toast.success {
+  background-color: #30CF79;
+}
+
+.flomo-toast.error {
+  background-color: #f44336;
+}
+
+.flomo-toast.fade-out {
+  animation: toast-slide-out 0.3s ease forwards;
+}
+
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-slide-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+/* Markdown 编辑器样式 */
+.flomo-input-group textarea {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  tab-size: 4;
+}
+
+/* 提示文本样式 */
+.flomo-input-group textarea::placeholder {
+  color: #999;
+}
+
+/* 添加 Markdown 快捷提示 */
+.flomo-input-group label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 只在个人想法和原文摘要的标签后显示 Markdown 提示 */
+.flomo-input-group:has(#flomo-thoughts) label::after,
+.flomo-input-group:has(#flomo-summary) label::after {
+  content: "支持 Markdown";
+  font-size: 12px;
+  font-weight: normal;
+  color: #999;
+}
+
+/* 原文标题及地址的标签和文本框样式 */
+.flomo-input-group:has(#flomo-source) label {
+  color: #666;
+  font-weight: normal;
+}
+
+/* 注册提示样式 */
+.flomo-register-tip {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.flomo-register-tip a {
+  color: #0066cc;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.flomo-register-tip a:hover {
+  color: #004c99;
+  text-decoration: underline;
+}
