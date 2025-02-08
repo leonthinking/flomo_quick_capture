@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Bilibili 视频截图工具",
+  "version": "1.0",
+  "description": "一键截取 Bilibili 视频画面",
+  "permissions": [
+    "activeTab",
+    "downloads"
+  ],
+  "host_permissions": [
+    "*://*.bilibili.com/*"
+  ],
+  "action": {
+    "default_title": "Bilibili 视频截图"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [{
+    "matches": ["*://*.bilibili.com/*"],
+    "js": ["content.js"],
+    "css": ["styles.css"]
+  }],
+  "icons": {
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
