@@ -1,25 +1,31 @@
 {
   "manifest_version": 3,
   "name": "flomo Quick Capture",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "快速将网页内容按照结构化格式发送到flomo",
+  "author": "Leon Zhang",
+  "minimum_chrome_version": "88",
   "permissions": [
     "storage",
     "activeTab",
-    "scripting",
-    "tabs"
+    "scripting"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "https://flomoapp.com/*"
   ],
   "action": {
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
-    }
+    },
+    "default_title": "flomo Quick Capture"
   },
   "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -27,9 +33,10 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["http://*/*", "https://*/*"],
       "css": ["sidebar.css"],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
   ],
   "background": {

@@ -278,19 +278,12 @@ body.flomo-sidebar-active {
   align-items: center;
 }
 
-/* 只在个人想法和原文摘要的标签后显示 Markdown 提示 */
-.flomo-input-group:has(#flomo-thoughts) label::after,
-.flomo-input-group:has(#flomo-summary) label::after {
-  content: "支持 Markdown";
+/* Markdown 提示标签 */
+.flomo-label-hint {
   font-size: 12px;
   font-weight: normal;
   color: #999;
-}
-
-/* 原文标题及地址的标签和文本框样式 */
-.flomo-input-group:has(#flomo-source) label {
-  color: #666;
-  font-weight: normal;
+  margin-left: auto;
 }
 
 /* 注册提示样式 */

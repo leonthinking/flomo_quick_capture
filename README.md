@@ -1,4 +1,4 @@
-# flomo Quick Capture (v1.0.0)
+# flomo Quick Capture (v1.0.1)
 
 A simple and efficient Chrome extension that helps you quickly send web content to flomo App.
 
@@ -67,6 +67,14 @@ If you encounter any issues or have suggestions:
 - Email: thinkinghunt@163.com
 
 ## Changelog
+
+### v1.0.1
+- Optimized code quality and performance
+- Improved script injection mechanism to reduce unnecessary re-injection
+- Enhanced CSS compatibility for more browsers
+- Optimized error handling mechanism
+- Added detailed code comments
+- Removed debug logs for better performance
 
 ### v1.0.0
 - Initial release

@@ -1,13 +1,13 @@
-console.log('content.js 开始执行');
+/**
+ * flomo Quick Capture 侧边栏类
+ * 提供侧边栏界面和交互功能
+ */
 
 // 确保类只声明一次
 if (!window.flomoSidebar) {
-  console.log('开始声明 FlomoSidebar 类');
   class FlomoSidebar {
     constructor() {
-      console.log('FlomoSidebar 构造函数被调用');
       if (window.flomoHelper) {
-        console.log('已存在 FlomoHelper 实例');
         return window.flomoHelper;
       }
       
@@ -19,11 +19,12 @@ if (!window.flomoSidebar) {
       
       // 保存实例
       window.flomoHelper = this;
-      console.log('新的 FlomoHelper 实例已创建');
     }
 
+    /**
+     * 设置消息监听器，接收来自 background 的消息
+     */
     setupMessageListener() {
-      console.log('Setting up message listener');
       // 移除之前的监听器（如果存在）
       if (this.messageHandler) {
         chrome.runtime.onMessage.removeListener(this.messageHandler);
@@ -31,7 +32,6 @@ if (!window.flomoSidebar) {
       
       // 创建新的消息处理函数
       this.messageHandler = (message, sender, sendResponse) => {
-        console.log('Message received in content script:', message);
         if (message.action === 'toggleSidebar') {
           this.toggleSidebar();
           sendResponse({ success: true });
@@ -41,11 +41,12 @@ if (!window.flomoSidebar) {
       
       // 添加监听器
       chrome.runtime.onMessage.addListener(this.messageHandler);
-      console.log('Message listener setup complete');
     }
 
+    /**
+     * 创建侧边栏 DOM 结构
+     */
     createSidebar() {
-      console.log('Creating sidebar');
       const sidebar = document.createElement('div');
       sidebar.id = 'flomo-sidebar';
       sidebar.className = 'hidden';
@@ -65,12 +66,12 @@ if (!window.flomoSidebar) {
         </div>
         
         <div class="flomo-input-group">
-          <label class="flomo-label">个人想法：</label>
+          <label class="flomo-label">个人想法：<span class="flomo-label-hint">支持 Markdown</span></label>
           <textarea id="flomo-thoughts" placeholder="现在的想法是..."></textarea>
         </div>
         
         <div class="flomo-input-group">
-          <label class="flomo-label">原文摘要：</label>
+          <label class="flomo-label">原文摘要：<span class="flomo-label-hint">支持 Markdown</span></label>
           <textarea id="flomo-summary" placeholder="摘要原文金句，下次回顾时帮你启发新的思考。"></textarea>
         </div>
         
@@ -87,10 +88,13 @@ if (!window.flomoSidebar) {
       `;
       
       document.body.appendChild(sidebar);
-      console.log('Sidebar created');
       this.bindEvents();
     }
 
+    /**
+     * 初始化拖动调整侧边栏宽度的功能
+     * 支持拖动左侧边缘调整宽度（300px - 800px）
+     */
     initResizeHandle() {
       const handle = document.getElementById('flomo-resize');
       const sidebar = document.getElementById('flomo-sidebar');
@@ -117,10 +121,13 @@ if (!window.flomoSidebar) {
       };
     }
 
+    /**
+     * 加载历史标签并显示在界面上
+     */
     async loadTags() {
       const tags = await chrome.storage.sync.get(['tags']);
       const tagsHistory = document.getElementById('flomo-tags-history');
-      tagsHistory.innerHTML = ''; // 清空现有标签
+      tagsHistory.innerHTML = '';
       
       if (tags.tags) {
         const lastUsedTags = JSON.parse(tags.tags);
@@ -139,6 +146,10 @@ if (!window.flomoSidebar) {
       }
     }
 
+    /**
+     * 绑定所有事件监听器
+     * 包括按钮点击、键盘快捷键、Markdown 编辑增强等
+     */
     async bindEvents() {
       // 获取所有需要的元素
       const closeBtn = document.getElementById('flomo-close');
@@ -154,28 +165,22 @@ if (!window.flomoSidebar) {
           registerTip.style.display = result.apiKey ? 'none' : 'block';
         }
       } catch (error) {
-        console.error('Failed to check API Key:', error);
+        // 忽略错误
       }
 
-      // 检查并添加事件监听器
+      // 添加事件监听器
       if (closeBtn) {
         closeBtn.addEventListener('click', () => this.toggleSidebar());
-      } else {
-        console.error('Close button not found');
       }
 
       if (submitBtn) {
         submitBtn.addEventListener('click', () => this.submitToFlomo());
-      } else {
-        console.error('Submit button not found');
       }
 
       if (settingsBtn) {
         settingsBtn.addEventListener('click', () => {
           chrome.runtime.sendMessage({ action: 'openOptions' });
         });
-      } else {
-        console.error('Settings button not found');
       }
       
       // 自动填充当前页面标题和URL
@@ -188,8 +193,6 @@ if (!window.flomoSidebar) {
         // 设置初始高度
         sourceTextarea.style.height = 'auto';
         sourceTextarea.style.height = (sourceTextarea.scrollHeight) + 'px';
-      } else {
-        console.error('Source textarea not found');
       }
 
       // 监听快捷键
@@ -203,7 +206,6 @@ if (!window.flomoSidebar) {
       ['flomo-thoughts', 'flomo-summary'].forEach(id => {
         const textarea = document.getElementById(id);
         if (!textarea) {
-          console.error(`Textarea with id ${id} not found`);
           return;
         }
         
@@ -331,7 +333,11 @@ if (!window.flomoSidebar) {
       });
     }
 
-    // 添加提示消息方法
+    /**
+     * 显示提示消息
+     * @param {string} message - 提示消息内容
+     * @param {string} type - 消息类型（'success' 或 'error'）
+     */
     showToast(message, type = 'success') {
       // 创建或获取 toast 容器
       let container = document.querySelector('.flomo-toast-container');
@@ -362,7 +368,12 @@ if (!window.flomoSidebar) {
       }, 2000);
     }
 
-    // 格式化 Markdown 内容
+    /**
+     * 格式化 Markdown 内容
+     * 统一列表格式、加粗和斜体语法
+     * @param {string} content - 原始内容
+     * @returns {string} - 格式化后的内容
+     */
     formatMarkdown(content) {
       // 处理有序列表：确保数字后面有点和空格
       content = content.replace(/^(\d+)([.。])\s*/gm, '$1. ');
@@ -380,13 +391,15 @@ if (!window.flomoSidebar) {
       return content;
     }
 
+    /**
+     * 提交内容到 flomo
+     * 包括标签、个人想法、原文摘要和原文地址
+     */
     async submitToFlomo() {
       const tags = document.getElementById('flomo-tags').value.trim();
       const thoughts = this.formatMarkdown(document.getElementById('flomo-thoughts').value.trim());
       const summary = this.formatMarkdown(document.getElementById('flomo-summary').value.trim());
       const source = document.getElementById('flomo-source').value;
-
-      // 移除内容验证限制
 
       // 保存使用的标签
       if (tags) {
@@ -444,17 +457,17 @@ if (!window.flomoSidebar) {
       }
     }
 
+    /**
+     * 切换侧边栏显示/隐藏状态
+     */
     toggleSidebar() {
-      console.log('Toggling sidebar');
       const sidebar = document.getElementById('flomo-sidebar');
       this.isVisible = !this.isVisible;
       
       if (this.isVisible) {
-        console.log('Showing sidebar');
         sidebar.classList.remove('hidden');
         document.body.classList.add('flomo-sidebar-active');
       } else {
-        console.log('Hiding sidebar');
         sidebar.classList.add('hidden');
         document.body.classList.remove('flomo-sidebar-active');
       }
@@ -463,38 +476,34 @@ if (!window.flomoSidebar) {
   
   // 将类绑定到 window 对象
   window.flomoSidebar = FlomoSidebar;
-  console.log('FlomoSidebar class bound to window object');
 }
 
-// 初始化函数
+/**
+ * 初始化侧边栏
+ * 如果已经存在实例则直接返回，否则创建新实例
+ */
 function initializeSidebar() {
-  console.log('Attempting to initialize sidebar...');
   try {
     // 如果已经存在实例，直接返回
     if (window.flomoHelper) {
-      console.log('Using existing flomoHelper instance');
       return window.flomoHelper;
     }
 
     // 创建新实例
-    console.log('Creating new flomoHelper instance');
     const sidebarInstance = new window.flomoSidebar();
     window.flomoHelper = sidebarInstance;
     return sidebarInstance;
   } catch (error) {
-    console.error('Failed to initialize flomoHelper:', error);
-    throw error;
+    // 初始化失败，静默处理
+    return null;
   }
 }
 
 // 确保 DOM 加载完成后再初始化
 if (document.readyState === 'loading') {
-  console.log('DOM still loading, waiting...');
   document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, initializing...');
     initializeSidebar();
   });
 } else {
-  console.log('DOM already loaded, initializing immediately');
   initializeSidebar();
 }
